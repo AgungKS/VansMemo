@@ -1,0 +1,107 @@
+{
+  "project_info": {
+    "project_number": "802947244532",
+    "firebase_url": "https://vanzproject-d66e1.firebaseio.com",
+    "project_id": "vanzproject-d66e1",
+    "storage_bucket": "vanzproject-d66e1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:802947244532:android:c26a8e90b1f07ba1",
+        "android_client_info": {
+          "package_name": "com.lycan.vansstore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "802947244532-5fqtkfi3q2aqot4b34j0n7t11lhqquu5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lycan.vansstore",
+            "certificate_hash": "ccb1ae594d67aad0c9d71b54c815acf89ddc6701"
+          }
+        },
+        {
+          "client_id": "802947244532-rm1gfk2fq23iepo8lkfoms9003f50nhq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6l38HrpQrFp0Hrmp3aCrosp8UTzJEmOU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "802947244532-rm1gfk2fq23iepo8lkfoms9003f50nhq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:802947244532:android:2bbccdb55afdd3a3",
+        "android_client_info": {
+          "package_name": "com.agung.vansstore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "802947244532-4l9ndf3bmb0jph3dtq2bg7f5d53rsv0b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.agung.vansstore",
+            "certificate_hash": "8be764145a866064959709a88b604aade8ed298c"
+          }
+        },
+        {
+          "client_id": "802947244532-ukkpjbmrdbdjcnkc3icb8n8g1j2gca00.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.agung.vansstore",
+            "certificate_hash": "ccb1ae594d67aad0c9d71b54c815acf89ddc6701"
+          }
+        },
+        {
+          "client_id": "802947244532-rm1gfk2fq23iepo8lkfoms9003f50nhq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6l38HrpQrFp0Hrmp3aCrosp8UTzJEmOU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "802947244532-rm1gfk2fq23iepo8lkfoms9003f50nhq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
