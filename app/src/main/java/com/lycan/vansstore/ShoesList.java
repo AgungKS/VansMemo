@@ -47,31 +47,43 @@ public class ShoesList extends AppCompatActivity {
     GridView gridView;
     ArrayList<Shoes> list;
     ShoesListAdapter adapter=null;
-    //SQLiteHelper sqLiteHelper;
+
+    //SQLite
+    /*
+    SQLiteHelper sqLiteHelper;
+     */
+
+    //Firebase
     FirebaseDatabase mDatabase;
     DatabaseReference mReference;
     FirebaseStorage mStorage;
     StorageReference mStorageReference;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shoes_list_array);
+
+        //Firebase
         mDatabase = FirebaseDatabase.getInstance();
         mReference = mDatabase.getReference("shoes");
         mStorage = FirebaseStorage.getInstance();
         mStorageReference = mStorage.getReference("shoes");
-        //sqLiteHelper=new SQLiteHelper(this, "ShoesDB.sqlite",null, 1);
+
+        //SQLite
+        /*
+        sqLiteHelper=new SQLiteHelper(this, "ShoesDB.sqlite",null, 1);
+        */
 
         gridView=(GridView)findViewById(R.id.gridView);
         list=new ArrayList<>();
         adapter=new ShoesListAdapter(this, R.layout.shoes_items, list);
         gridView.setAdapter(adapter);
         fetchData();
-        //Tadi di Cut
+
         //Get All Data dari SQLite
-        /*Cursor cursor=sqLiteHelper.getData("SELECT * FROM SHOES");
+        /*
+        Cursor cursor=sqLiteHelper.getData("SELECT * FROM SHOES");
         list.clear();
 
         while (cursor.moveToNext()){
@@ -82,36 +94,44 @@ public class ShoesList extends AppCompatActivity {
 
             list.add(new Shoes(id, name, price, image));
         }
-        adapter.notifyDataSetChanged();*/
-
+        adapter.notifyDataSetChanged();
+        */
 
         //Set Item Long Click Listener dari Gridview
         gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                final CharSequence[] items={"Update", "Delete"};
+                final CharSequence[] items={"Update", "Hapus"};
                 AlertDialog.Builder dialog=new AlertDialog.Builder(ShoesList.this);
 
-                dialog.setTitle("Choose An Action");
+                dialog.setTitle("Pilih Aksi");
                 dialog.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int item) {
                         if(item == 0){
                             //Update
-                            /*Cursor c=MainActivity.sqLiteHelper.getData("SELECT id FROM SHOES");
+                            /*
+                            Cursor c=MainActivity.sqLiteHelper.getData("SELECT id FROM SHOES");
                             ArrayList<Integer> arrID=new ArrayList<Integer>();
                             while (c.moveToNext()){
                                 arrID.add(c.getInt(0));
-                            }*/
+                            }
+                            */
                             //Show Dialog at Here
+                            /*
+                            showDialogUpdate(ShoesList.this, arrID.get(position));
+                            */
                             showDialogUpdate(ShoesList.this, position);
                         }else{
                             //Delete
-                            /*Cursor c=MainActivity.sqLiteHelper.getData("SELECT id FROM SHOES");
+                            /*
+                            Cursor c=MainActivity.sqLiteHelper.getData("SELECT id FROM SHOES");
                             ArrayList<Integer> arrID=new ArrayList<Integer>();
                             while (c.moveToNext()){
                                 arrID.add(c.getInt(0));
-                            }*/
+                            }
+                            showDialogDelete(arrID.get(position));
+                            */
                             showDialogDelete(position);
                         }
                     }
@@ -157,11 +177,11 @@ public class ShoesList extends AppCompatActivity {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Firebase
                 final String key = list.get(position).getId();
-                final Shoes data = new Shoes(key, edtName.getText().toString().trim(),edtPrice.getText().toString().trim(),
-                       null);
+                final Shoes data = new Shoes(key, edtName.getText().toString().trim(),edtPrice.getText().toString().trim(),null);
                 dialog.dismiss();
-                final AlertDialog dialog1 = new AlertDialog.Builder(ShoesList.this).setMessage("MEMPROSES . . .").setCancelable(false).create();
+                final AlertDialog dialog1 = new AlertDialog.Builder(ShoesList.this).setMessage("Memproses...").setCancelable(false).create();
                 dialog1.setCanceledOnTouchOutside(false);
                 dialog1.show();
                 mStorageReference.child(key).putBytes(MainActivity.imageViewToByte(imageViewShoes)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -171,48 +191,52 @@ public class ShoesList extends AppCompatActivity {
                         mReference.child(key).setValue(data, new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                Toast.makeText(getApplicationContext(), "Telah Diubah", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Update Sukses", Toast.LENGTH_SHORT).show();
                                 dialog1.dismiss();
-                                finish();
+                                /*finish();*/
+                                fetchData();
                             }
                         });
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Gagal Mengubah", Toast.LENGTH_SHORT).show();
                         dialog1.dismiss();
+                        Toast.makeText(getApplicationContext(), "Update Gagal", Toast.LENGTH_SHORT).show();
 
                     }
                 });
-                /*try{
-                    /*MainActivity.sqLiteHelper.updateData(
+
+                //SQLite
+                /*
+                try{
+                    MainActivity.sqLiteHelper.updateData(
                             edtName.getText().toString().trim(),
                             edtPrice.getText().toString().trim(),
                             MainActivity.imageViewToByte(imageViewShoes),
                             position
                     );
                     dialog1.dismiss();
-
-
+                    Toast.makeText(getApplicationContext(), "Update Sukses",Toast.LENGTH_SHORT).show();
                 }
                 catch (Exception error){
                     Log.e("Update Error", error.getMessage());
-                }*/
-
+                }
+                updateShoesList();
+                */
             }
         });
     }
 
-    private void showDialogDelete(final int position){
+    private void showDialogDelete(final int /*idShoes*/ position){
         AlertDialog.Builder dialogDelete=new AlertDialog.Builder(ShoesList.this);
 
-        dialogDelete.setTitle("Warning");
+        dialogDelete.setTitle("Peringatan");
         dialogDelete.setMessage("Apakah Anda Yakin Akan Menghapus Ini ?");
         dialogDelete.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogs, int which) {
-                final AlertDialog dialog = new AlertDialog.Builder(ShoesList.this).setMessage("MEMPROSES . . .").setCancelable(false).create();
+                final AlertDialog dialog = new AlertDialog.Builder(ShoesList.this).setMessage("Memproses...").setCancelable(false).create();
                 dialog.setCanceledOnTouchOutside(false);
                 final String key = list.get(position).getId();
                 dialog.show();
@@ -222,9 +246,10 @@ public class ShoesList extends AppCompatActivity {
                         mReference.child(key).removeValue(new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                Toast.makeText(getApplicationContext(), "Hapus Oret", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Hapus Sukses", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
-                                finish();
+                                /*finish();*/
+                                fetchData();
                             }
                         });
                     }
@@ -234,16 +259,19 @@ public class ShoesList extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Hapus Gagal",Toast.LENGTH_SHORT).show();
                     }
                 });
-                /*try{
-                    //MainActivity.sqLiteHelper.deleteData(position);
-
+                /*
+                try{
+                    MainActivity.sqLiteHelper.deleteData(idShoes);
+                    Toast.makeText(getApplicationContext(), "Hapus Sukses",Toast.LENGTH_SHORT).show();
                 }catch (Exception e){
                     Log.e("Error", e.getMessage());
-                }*/
+                }
+                updateShoesList();
+                */
             }
         });
 
-        dialogDelete.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        dialogDelete.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogs, int which) {
                 dialogs.dismiss();
@@ -252,11 +280,15 @@ public class ShoesList extends AppCompatActivity {
         dialogDelete.show();
     }
 
-    //Untuk Merefresh Grid View Setelah Update
     private void updateShoesList(boolean delete){
-        //Hasil Cut
+        adapter.notifyDataSetChanged();
+    }
+
+    //Untuk Merefresh Grid View Setelah Update
+    /*
+    private void updateShoesList(){
         //Get All Data dari SQLite
-        /*Cursor cursor=MainActivity.sqLiteHelper.getData("SELECT * FROM SHOES");
+        Cursor cursor=MainActivity.sqLiteHelper.getData("SELECT * FROM SHOES");
         list.clear();
         while (cursor.moveToNext()){
             int id=cursor.getInt(0);
@@ -265,9 +297,10 @@ public class ShoesList extends AppCompatActivity {
             byte[] image=cursor.getBlob(3);
 
             list.add(new Shoes(id, name, price, image));
-        }*/
+        }
         adapter.notifyDataSetChanged();
     }
+    */
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -301,11 +334,14 @@ public class ShoesList extends AppCompatActivity {
     }
 
     private void fetchData(){
+        list.clear();
+        adapter.notifyDataSetChanged();
         mReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     if(dataSnapshot.getChildrenCount() > 0){
+                        //list.clear();
                         for (DataSnapshot child : dataSnapshot.getChildren()){
                             Shoes data = child.getValue(Shoes.class);
                             list.add(data);
@@ -313,20 +349,18 @@ public class ShoesList extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                     }
                     else{
-                        Toast.makeText(getApplicationContext(), " Tidak ada daftar sepatu", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Tidak Ada Daftar Sepatu", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), " Tidak ada daftar sepatu", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Tidak Ada Daftar Sepatu", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(), " Gagal mengambil data dari server", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Gagal Mengambil Data Dari Server", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-
 }

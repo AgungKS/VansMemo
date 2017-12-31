@@ -5,27 +5,26 @@ package com.lycan.vansstore;
  */
 
 public class Shoes {
-    private String id;
+    private /*int*/ String id;
     private String name;
     private String price;
-    private String image;
+    private /*byte[]*/ String image;
 
     public Shoes(){
-
     }
 
-    public Shoes(String id, String name, String price, String image) {
+    public Shoes(/*int*/ String id, String name, String price, /*byte[]*/ String image) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.image = image;
     }
 
-    public String getId() {
+    public /*int*/ String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(/*int*/ String id) {
         this.id = id;
     }
 
@@ -45,11 +44,11 @@ public class Shoes {
         this.price = price;
     }
 
-    public String getImage() {
+    public /*byte[]*/ String getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(/*byte[]*/ String image) {
         this.image = image;
     }
 }

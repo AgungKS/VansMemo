@@ -71,11 +71,17 @@ public class ShoesListAdapter extends BaseAdapter {
 
         holder.txtName.setText(shoes.getName());
         holder.txtPrice.setText(shoes.getPrice());
+
+        //Firebase
         String urlImage = shoes.getImage();
         Glide.with(context).load(urlImage).into(holder.imageView);
-        //byte[] shoesImage=shoes.getImage();
-        //Bitmap bitmap= BitmapFactory.decodeByteArray(shoesImage, 0, shoesImage.length);
-        //holder.imageView.setImageBitmap(bitmap);
+
+        //SQLite
+        /*
+        byte[] shoesImage=shoes.getImage();
+        Bitmap bitmap= BitmapFactory.decodeByteArray(shoesImage, 0, shoesImage.length);
+        holder.imageView.setImageBitmap(bitmap);
+        */
 
         return row;
     }

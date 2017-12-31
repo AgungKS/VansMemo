@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/background_12"
     android:layout_height="match_parent">
 
     <ImageView
@@ -25,11 +26,12 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="Name"
+        android:hint="Nama"
+        android:textColorHint="#FFFFFF"
         android:inputType="textPersonName"
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:textColor="@color/colorPrimary"
+        android:textColor="#FFFFFF"
         android:textStyle="bold" />
 
     <EditText
@@ -43,11 +45,12 @@
         android:layout_below="@+id/edtName"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="Price"
+        android:hint="Harga"
+        android:textColorHint="#FFFFFF"
         android:inputType="textPersonName"
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:textColor="@color/colorPrimary"
+        android:textColor="#FFFFFF"
         android:textStyle="bold" />
 
     <Button

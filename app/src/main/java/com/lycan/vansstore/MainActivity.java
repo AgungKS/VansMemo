@@ -38,11 +38,17 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageView;
 
     final int REQUEST_CODE_GALLERY=999;
+
+    //Inisialisasi Firebase
     FirebaseDatabase mDatabase;
     DatabaseReference mReference;
     FirebaseStorage mStorage;
     StorageReference mStorageReference;
-    //public  static SQLiteHelper sqLiteHelper;
+
+    //Inisialisasi SQLite
+    /*
+    public  static SQLiteHelper sqLiteHelper;
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +56,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
+
+        //Untuk Mengambil Reference Data dari Firebase
         mDatabase = FirebaseDatabase.getInstance();
         mReference = mDatabase.getReference("shoes");
         mStorage = FirebaseStorage.getInstance();
         mStorageReference = mStorage.getReference("shoes");
-        //Membuat Database Shoes
-        //sqLiteHelper=new SQLiteHelper(this, "ShoesDB.sqlite",null, 1);
 
-        //sqLiteHelper.queryData("CREATE TABLE IF NOT EXISTS SHOES (Id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, price VARCHAR, image BLOG)");
+        //Membuat Database Shoes
+        /*
+        sqLiteHelper=new SQLiteHelper(this, "ShoesDB.sqlite",null, 1);
+        sqLiteHelper.queryData("CREATE TABLE IF NOT EXISTS SHOES (Id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, price VARCHAR, image BLOG)");
+        */
 
         //Click Listener untuk Button Choose dan Get Image dari Gallery kedalam ImageView
         btnChoose.setOnClickListener(new View.OnClickListener() {
@@ -75,13 +85,20 @@ public class MainActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Dengan Firebase
                 insertToFirebase();
+
+                //Dengan SQLite
                 /*try {
                     sqLiteHelper.insertData(
                             edtName.getText().toString().trim(),
                             edtPrice.getText().toString().trim(),
                             imageViewToByte(imageView)
                     );
+                    Toast.makeText(getApplicationContext(), "Telah Ditambahkan", Toast.LENGTH_SHORT).show();
+                    edtName.setText("");
+                    edtPrice.setText("");
+                    imageView.setImageResource(R.mipmap.ic_launcher);
                 }
                 catch (Exception e){
                     e.printStackTrace();
@@ -150,16 +167,16 @@ public class MainActivity extends AppCompatActivity {
         imageView=(ImageView)findViewById(R.id.imageView);
     }
 
+    //Insert Data ke Firebase
     private void insertToFirebase(){
-        final AlertDialog dialog = new AlertDialog.Builder(this).setMessage("MEMPROSES . . .").setCancelable(false).create();
+        final AlertDialog dialog = new AlertDialog.Builder(this).setMessage("Memproses...").setCancelable(false).create();
         dialog.setCanceledOnTouchOutside(false);
         final String key = mReference.push().getKey();
         dialog.show();
         mStorageReference.child(key).putBytes(imageViewToByte(imageView)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Shoes data = new Shoes(key, edtName.getText().toString().trim(),edtPrice.getText().toString().trim(),
-                        taskSnapshot.getDownloadUrl().toString());
+                Shoes data = new Shoes(key, edtName.getText().toString().trim(),edtPrice.getText().toString().trim(),taskSnapshot.getDownloadUrl().toString());
                 mReference.child(key).setValue(data, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -174,11 +191,9 @@ public class MainActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(), "Gagal Menammbahkan", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Gagal Menambahkan", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });
-
-
     }
 }

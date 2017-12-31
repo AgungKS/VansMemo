@@ -92,7 +92,6 @@ public class ShoesHome extends AppCompatActivity
         } else if (id == R.id.nav_add) {
             Intent intent = new Intent(this,MainActivity.class);
             startActivity(intent);
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
